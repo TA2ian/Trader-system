@@ -1,0 +1,6 @@
+{
+  "name": "Syria Trader ERP",
+  "description": "نظام احترافي لإدارة الديون والمخزون للتجار في سوريا مع دعم تعدد العملات والعمل بدون إنترنت.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

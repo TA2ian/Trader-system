@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans Arabic", ui-sans-serif, system-ui;
+  --font-display: "Space Grotesk", "Noto Sans Arabic", sans-serif;
+
+  --color-glass-white: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-bg-dark: #0d0f14;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-dark text-white font-sans antialiased overflow-x-hidden;
+    direction: rtl;
+    /* Force GPU rendering hint */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight transition-colors duration-200;
+  }
+}
+
+.frosted-glass {
+  @apply backdrop-blur-xl bg-glass-white border border-glass-border;
+  /* GPU acceleration for glass effects */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+  backface-visibility: hidden;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}

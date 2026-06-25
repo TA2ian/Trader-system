@@ -1,0 +1,3 @@
+## 2025-05-15 - [Enhancing Form Accessibility and Feedback]
+**Learning:** Even in highly customized, dark-themed UIs, standard accessibility patterns like `htmlFor` associations and `focus-visible` rings are essential. Using `focus-visible` allows us to provide clear indicators for keyboard users without affecting the visual experience for mouse users, which is often a concern for designers. Additionally, adding simple feedback like a character counter significantly improves the perceived quality of a form.
+**Action:** Always check icon-only buttons for `aria-label` and ensure all labels are programmatically linked to their inputs. Implement character counters for limited text fields.

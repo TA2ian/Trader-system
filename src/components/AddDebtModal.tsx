@@ -147,8 +147,9 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
             <div className="flex justify-between items-center mb-6 relative z-10">
               <button 
                 onClick={onClose}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                className="p-2 hover:bg-white/10 rounded-full transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e0e16] outline-none"
                 type="button"
+                aria-label="إغلاق النافذة"
               >
                 <X className="w-5 h-5 text-white/40" />
               </button>
@@ -163,9 +164,10 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                 
                 {/* Searchable / Autocomplete Customer Field */}
                 <div className="col-span-full relative" id="customer-search-container">
-                  <label className="block text-[10px] text-white/40 mb-2 uppercase tracking-widest font-bold">اسم العميل</label>
+                  <label htmlFor="customer-search" className="block text-[10px] text-white/40 mb-2 uppercase tracking-widest font-bold">اسم العميل</label>
                   <div className="relative">
                     <input
+                      id="customer-search"
                       type="text"
                       required
                       value={clientSearchTerm}
@@ -184,7 +186,7 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                       }}
                       onFocus={() => setIsDropdownOpen(true)}
                       placeholder="ابحث عن اسم العميل أو اكتب اسماً جديداً..."
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 pr-11 pl-10 outline-none focus:border-emerald-500/50 transition-all text-right text-sm text-white"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 pr-11 pl-10 outline-none focus:border-emerald-500/50 focus-visible:ring-2 focus-visible:ring-emerald-500/50 transition-all text-right text-sm text-white"
                     />
                     <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
                     
@@ -198,7 +200,7 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                           setNewCustomerPhone("");
                           setNewCustomerRegion("دمشق");
                         }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors text-xs font-bold"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors text-xs font-bold focus-visible:ring-1 focus-visible:ring-emerald-500/50 outline-none rounded-sm"
                       >
                         مسح
                       </button>
@@ -238,7 +240,7 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                             setIsAddingNewCustomer(false);
                             setIsDropdownOpen(false);
                           }}
-                          className="w-full text-right px-4 py-3 hover:bg-white/10 flex justify-between items-center transition-all text-xs text-white cursor-pointer"
+                          className="w-full text-right px-4 py-3 hover:bg-white/10 flex justify-between items-center transition-all text-xs text-white cursor-pointer focus:bg-white/10 outline-none"
                         >
                           <div className="flex items-center gap-2">
                             <span className="text-[9px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded-md font-mono">مسجل</span>
@@ -260,7 +262,7 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                             setIsAddingNewCustomer(true);
                             setIsDropdownOpen(false);
                           }}
-                          className="w-full text-right px-4 py-3.5 hover:bg-indigo-500/10 flex justify-between items-center transition-all text-xs bg-indigo-500/[0.04] text-indigo-300 hover:text-white cursor-pointer"
+                          className="w-full text-right px-4 py-3.5 hover:bg-indigo-500/10 flex justify-between items-center transition-all text-xs bg-indigo-500/[0.04] text-indigo-300 hover:text-white cursor-pointer focus:bg-indigo-500/20 outline-none"
                         >
                           <span className="text-[9px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-lg font-black">+ إنشاء فوراً</span>
                           <div className="text-right">
@@ -295,28 +297,30 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-[10px] text-white/40 mb-1.5 uppercase tracking-wider font-bold">رقم الهاتف</label>
+                          <label htmlFor="new-customer-phone" className="block text-[10px] text-white/40 mb-1.5 uppercase tracking-wider font-bold">رقم الهاتف</label>
                           <div className="relative font-mono">
                             <input
+                              id="new-customer-phone"
                               type="tel"
                               value={newCustomerPhone}
                               onChange={(e) => setNewCustomerPhone(e.target.value)}
                               placeholder="09xx xxx xxx"
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 pr-10 outline-none focus:border-indigo-500/50 transition-all text-right text-xs text-white"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 pr-10 outline-none focus:border-indigo-500/50 focus-visible:ring-2 focus-visible:ring-indigo-500/50 transition-all text-right text-xs text-white"
                             />
                             <Phone className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
                           </div>
                         </div>
 
                         <div>
-                          <label className="block text-[10px] text-white/40 mb-1.5 uppercase tracking-wider font-bold">المحافظة والمنطقة</label>
+                          <label htmlFor="new-customer-region" className="block text-[10px] text-white/40 mb-1.5 uppercase tracking-wider font-bold">المحافظة والمنطقة</label>
                           <div className="relative">
                             <input
+                              id="new-customer-region"
                               type="text"
                               value={newCustomerRegion}
                               onChange={(e) => setNewCustomerRegion(e.target.value)}
                               placeholder="مثال: دمشق، حلب..."
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 pr-10 outline-none focus:border-indigo-500/50 transition-all text-right text-xs text-white"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 pr-10 outline-none focus:border-indigo-500/50 focus-visible:ring-2 focus-visible:ring-indigo-500/50 transition-all text-right text-xs text-white"
                             />
                             <MapPin className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
                           </div>
@@ -374,21 +378,21 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
                               <button
                                 type="button"
                                 onClick={() => setAmount(customerBalanceUSD.toString())}
-                                className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-xl py-1 text-[10px] font-bold text-center transition-all cursor-pointer active:scale-95"
+                                className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-xl py-1 text-[10px] font-bold text-center transition-all cursor-pointer active:scale-95 focus-visible:ring-1 focus-visible:ring-emerald-500/50 outline-none"
                               >
                                 💵 كامل الذمة
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setAmount((customerBalanceUSD / 2).toFixed(2))}
-                                className="bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/20 rounded-xl py-1 text-[10px] font-bold text-center transition-all cursor-pointer active:scale-95"
+                                className="bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/20 rounded-xl py-1 text-[10px] font-bold text-center transition-all cursor-pointer active:scale-95 focus-visible:ring-1 focus-visible:ring-indigo-500/50 outline-none"
                               >
                                 🌗 نصف الذمة
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setAmount((customerBalanceUSD / 4).toFixed(2))}
-                                className="bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-xl py-1 text-[10px] font-bold text-center transition-all cursor-pointer active:scale-95"
+                                className="bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-xl py-1 text-[10px] font-bold text-center transition-all cursor-pointer active:scale-95 focus-visible:ring-1 focus-visible:ring-white/30 outline-none"
                               >
                                 ⏳ ربع الذمة
                               </button>
@@ -402,27 +406,33 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
 
                 {/* Amount input field */}
                 <div>
-                  <label className="block text-[10px] text-white/40 mb-2 uppercase tracking-widest font-bold">المبلغ ($)</label>
+                  <label htmlFor="debt-amount" className="block text-[10px] text-white/40 mb-2 uppercase tracking-widest font-bold">المبلغ ($)</label>
                   <input
+                    id="debt-amount"
                     type="number"
                     step="any"
                     required
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 transition-all text-left font-mono font-bold text-base text-emerald-400"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 focus-visible:ring-2 focus-visible:ring-emerald-500/50 transition-all text-left font-mono font-bold text-base text-emerald-400"
                   />
                 </div>
 
                 {/* Notes/Invoice ID input */}
-                <div>
-                  <label className="block text-[10px] text-white/40 mb-2 uppercase tracking-widest font-bold">ملاحظات إضافية</label>
+                <div className="relative">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[10px] text-white/20 font-mono">{notes.length}/200</span>
+                    <label htmlFor="debt-notes" className="block text-[10px] text-white/40 uppercase tracking-widest font-bold">ملاحظات إضافية</label>
+                  </div>
                   <textarea
+                    id="debt-notes"
                     value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
+                    onChange={(e) => setNotes(e.target.value.slice(0, 200))}
                     placeholder="مثال: فاتورة مبيعات، تسديد دفعة نقدية..."
                     rows={2}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 transition-all text-right text-xs text-white"
+                    maxLength={200}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 focus-visible:ring-2 focus-visible:ring-emerald-500/50 transition-all text-right text-xs text-white resize-none"
                   />
                 </div>
               </div>
@@ -431,7 +441,7 @@ export function AddDebtModal({ isOpen, onClose, onAdd }: AddDebtModalProps) {
               <button
                 type="submit"
                 disabled={loadingCustomer}
-                className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black rounded-2xl font-black flex items-center justify-center gap-3 hover:scale-[1.01] transition-all shadow-xl shadow-emerald-500/10 active:scale-95 text-xs text-center cursor-pointer disabled:opacity-50"
+                className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black rounded-2xl font-black flex items-center justify-center gap-3 hover:scale-[1.01] transition-all shadow-xl shadow-emerald-500/10 active:scale-95 text-xs text-center cursor-pointer disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-emerald-500/50 outline-none"
               >
                 {loadingCustomer ? (
                   <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>

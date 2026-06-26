@@ -9,6 +9,14 @@ async function startServer() {
 
   app.use(express.json());
 
+  // Basic Security Headers
+  app.use((req, res, next) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Frame-Options", "DENY");
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+    next();
+  });
+
   // Gemini Client Initialization
   const geminiApiKey = process.env.GEMINI_API_KEY;
   const ai = geminiApiKey ? new GoogleGenAI({
@@ -54,7 +62,8 @@ async function startServer() {
       res.json({ result: response.text });
     } catch (error: any) {
       console.error("AI Error:", error);
-      res.status(500).json({ error: error.message || "Failed to process AI request" });
+      // Sentinel: Prevent information leakage by not sending error.message to client
+      res.status(500).json({ error: "Failed to process AI request" });
     }
   });
 

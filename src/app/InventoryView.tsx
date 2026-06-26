@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useInventory } from "../hooks/useInventory";
 import { 
   Plus, AlertTriangle, Filter, TrendingUp, Edit3, 
@@ -27,59 +27,74 @@ export function InventoryView() {
   const [bulkSuccessMsg, setBulkSuccessMsg] = useState("");
 
   // Calculations
-  const totalValueUSD = items.reduce((sum, item) => {
+  const totalValueUSD = useMemo(() => items.reduce((sum, item) => {
     return sum + (item.unitPriceUSD * item.quantity);
-  }, 0);
+  }, 0), [items]);
 
-  const totalItemsCount = items.reduce((sum, item) => {
+  const totalItemsCount = useMemo(() => items.reduce((sum, item) => {
     return sum + item.quantity;
-  }, 0);
+  }, 0), [items]);
 
-  const lowStockItems = items.filter(item => item.quantity < 10);
+  const lowStockItems = useMemo(() => items.filter(item => item.quantity < 10), [items]);
 
   // Detailed unit-based inventory breakdown according to Syrian merchant standards
-  let totalPieces = 0;
-  let totalPackages = 0;
-  let totalLoosePieces = 0;
-  let totalWeightKg = 0;
-  let totalWeightG = 0;
-  let totalDimMeter = 0;
-  let totalDimCm = 0;
-  let totalDimMm = 0;
+  const {
+    totalPieces,
+    totalPackages,
+    totalLoosePieces,
+    totalWeightKg,
+    totalWeightG,
+    totalDimMeter,
+    totalDimCm,
+    totalDimMm,
+  } = useMemo(() => {
+    let pieces = 0, packages = 0, loosePieces = 0, weightKg = 0, weightG = 0, dimMeter = 0, dimCm = 0, dimMm = 0;
 
-  items.forEach(item => {
-    const uType = item.unit_type || 'piece';
-    if (item.has_packages || uType === 'package') {
-      const pPerPkg = item.pieces_per_package || 1;
-      const pQty = item.packages_qty !== undefined ? item.packages_qty : Math.floor(item.quantity / pPerPkg);
-      const sQty = item.single_pieces_qty !== undefined ? item.single_pieces_qty : (item.quantity % pPerPkg);
-      totalPackages += pQty;
-      totalLoosePieces += sQty;
-    } else if (uType === 'piece') {
-      totalPieces += item.quantity;
-    } else if (uType === 'weight') {
-      const wUnit = item.weight_unit || 'kg';
-      if (wUnit === 'kg') {
-        totalWeightKg += item.quantity;
-      } else {
-        totalWeightG += item.quantity;
+    items.forEach(item => {
+      const uType = item.unit_type || 'piece';
+      if (item.has_packages || uType === 'package') {
+        const pPerPkg = item.pieces_per_package || 1;
+        const pQty = item.packages_qty !== undefined ? item.packages_qty : Math.floor(item.quantity / pPerPkg);
+        const sQty = item.single_pieces_qty !== undefined ? item.single_pieces_qty : (item.quantity % pPerPkg);
+        packages += pQty;
+        loosePieces += sQty;
+      } else if (uType === 'piece') {
+        pieces += item.quantity;
+      } else if (uType === 'weight') {
+        const wUnit = item.weight_unit || 'kg';
+        if (wUnit === 'kg') {
+          weightKg += item.quantity;
+        } else {
+          weightG += item.quantity;
+        }
+      } else if (uType === 'dimension') {
+        const dUnit = item.dimension_unit || 'meter';
+        if (dUnit === 'meter') {
+          dimMeter += item.quantity;
+        } else if (dUnit === 'cm') {
+          dimCm += item.quantity;
+        } else {
+          dimMm += item.quantity;
+        }
       }
-    } else if (uType === 'dimension') {
-      const dUnit = item.dimension_unit || 'meter';
-      if (dUnit === 'meter') {
-        totalDimMeter += item.quantity;
-      } else if (dUnit === 'cm') {
-        totalDimCm += item.quantity;
-      } else {
-        totalDimMm += item.quantity;
-      }
-    }
-  });
+    });
 
-  const filteredItems = items.filter(item => {
+    return {
+      totalPieces: pieces,
+      totalPackages: packages,
+      totalLoosePieces: loosePieces,
+      totalWeightKg: weightKg,
+      totalWeightG: weightG,
+      totalDimMeter: dimMeter,
+      totalDimCm: dimCm,
+      totalDimMm: dimMm,
+    };
+  }, [items]);
+
+  const filteredItems = useMemo(() => items.filter(item => {
     if (activeTab === 'all') return true;
     return (item.category || 'سلع استهلاكية') === activeTab;
-  });
+  }), [items, activeTab]);
 
   // Handle instant bulk pricing adjustment (حماية ضد التضخم وتقلبات السوق السورية اللحظية)
   const handleBulkPriceAdjustment = async () => {
